@@ -120,10 +120,14 @@ void SortArray::FillData(unsigned int schema, size_t arraysize)
 
     if (schema == 0) // Shuffle of [1,n]
     {
+        std::vector<int> indices;
         for (size_t i = 0; i < m_array.size(); ++i)
-            m_array[i] = ArrayItem(i+1);
+            indices.push_back(i+1);
+        std::random_shuffle(indices.begin(), indices.end());
+        std::sort(indices.begin(), indices.begin() + (9 * indices.size()) / 10 );
 
-        std::random_shuffle(m_array.begin(), m_array.end());
+        for (size_t i = 0; i < indices.size(); ++i)
+            m_array[i] = ArrayItem(indices.at(i));
     }
     else if (schema == 1) // Ascending [1,n]
     {
